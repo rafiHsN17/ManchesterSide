@@ -1,0 +1,14 @@
+INSTRUKSI UPLOAD FOTO ADMIN
+=============================
+
+Simpan 2 foto yang diberikan dengan nama:
+
+1. admin_admin_1.jpg  -> Foto pertama (dengan topi)
+2. admin_admin_2.jpg  -> Foto kedua (tanpa topi)
+
+Letakkan di folder: uploads/profiles/
+
+Format: JPG
+Ukuran: 300x300px (akan otomatis di-resize oleh browser)
+
+Setelah foto disimpan, foto akan otomatis muncul di halaman Tentang Kami.
