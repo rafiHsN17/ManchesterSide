@@ -124,22 +124,31 @@ include 'includes/header.php';
                     <div class="h-32 bg-gradient-to-r from-<?php echo $user['favorite_team'] === 'CITY' ? 'city-blue' : ($user['favorite_team'] === 'UNITED' ? 'united-red' : 'gray'); ?>-500 to-<?php echo $user['favorite_team'] === 'CITY' ? 'city-navy' : ($user['favorite_team'] === 'UNITED' ? 'red' : 'gray'); ?>-900"></div>
                     
                     <div class="px-6 pb-6">
-                        <!-- Avatar -->
+                        <!-- Avatar with Club Logo -->
                         <div class="flex justify-center -mt-16 mb-4">
-                            <div class="w-32 h-32 bg-gradient-to-r from-city-blue to-united-red rounded-full flex items-center justify-center text-white text-5xl font-bold border-4 border-white shadow-xl">
-                                <?php echo strtoupper(substr($user['username'], 0, 1)); ?>
-                            </div>
+                            <?php if ($user['favorite_team'] === 'CITY'): ?>
+                                <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center border-4 border-white shadow-xl p-4">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" alt="Man City" class="w-full h-full object-contain">
+                                </div>
+                            <?php elseif ($user['favorite_team'] === 'UNITED'): ?>
+                                <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center border-4 border-white shadow-xl p-4">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" alt="Man United" class="w-full h-full object-contain">
+                                </div>
+                            <?php else: ?>
+                                <div class="w-32 h-32 bg-gradient-to-r from-city-blue to-united-red rounded-full flex items-center justify-center text-white text-5xl font-bold border-4 border-white shadow-xl">
+                                    <?php echo strtoupper(substr($user['username'], 0, 1)); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                         <!-- User Info -->
                         <div class="text-center mb-6">
                             <h1 class="text-2xl font-bold text-gray-900 mb-1"><?php echo $user['full_name'] ?? $user['username']; ?></h1>
-                            <p class="text-gray-600">@<?php echo $user['username']; ?></p>
+                            <p class="text-gray-700 font-medium">@<?php echo $user['username']; ?></p>
                             <?php if ($user['favorite_team']): ?>
                                 <div class="mt-3">
-                                    <span class="inline-block px-4 py-2 bg-gradient-to-r from-<?php echo $user['favorite_team'] === 'CITY' ? 'city-blue' : 'united-red'; ?>-500 to-<?php echo $user['favorite_team'] === 'CITY' ? 'city-navy' : 'red'; ?>-900 text-white rounded-full text-sm font-bold">
-                                        <?php echo getClubEmoji($user['favorite_team']); ?> 
-                                        <?php echo $user['favorite_team'] === 'CITY' ? 'Man City Fan' : 'Man United Fan'; ?>
+                                    <span class="inline-block px-4 py-2 bg-<?php echo $user['favorite_team'] === 'CITY' ? 'city-blue' : 'united-red'; ?> text-white rounded-full text-sm font-bold shadow-md">
+                                        <?php echo $user['favorite_team'] === 'CITY' ? '🔵 Man City Fan' : '🔴 Man United Fan'; ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
@@ -149,22 +158,32 @@ include 'includes/header.php';
                         <div class="grid grid-cols-3 gap-4 py-4 border-t border-gray-200">
                             <div class="text-center">
                                 <p class="text-2xl font-bold text-gray-900"><?php echo $stats['favorites']; ?></p>
-                                <p class="text-xs text-gray-600">Favorit</p>
+                                <p class="text-sm text-gray-700 font-medium">Favorit</p>
                             </div>
                             <div class="text-center">
                                 <p class="text-2xl font-bold text-gray-900"><?php echo $stats['reactions']; ?></p>
-                                <p class="text-xs text-gray-600">Reaksi</p>
+                                <p class="text-sm text-gray-700 font-medium">Reaksi</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-gray-900">👤</p>
-                                <p class="text-xs text-gray-600">Member</p>
+                                <?php if ($user['favorite_team'] === 'CITY'): ?>
+                                    <div class="flex justify-center mb-1">
+                                        <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" alt="Man City" class="w-8 h-8 object-contain">
+                                    </div>
+                                <?php elseif ($user['favorite_team'] === 'UNITED'): ?>
+                                    <div class="flex justify-center mb-1">
+                                        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" alt="Man United" class="w-8 h-8 object-contain">
+                                    </div>
+                                <?php else: ?>
+                                    <p class="text-2xl font-bold text-gray-900">👤</p>
+                                <?php endif; ?>
+                                <p class="text-sm text-gray-700 font-medium">Member</p>
                             </div>
                         </div>
 
                         <!-- Member Since -->
-                        <div class="mt-4 text-center text-sm text-gray-500">
-                            <p>📅 Bergabung sejak</p>
-                            <p class="font-semibold"><?php echo $stats['member_since']; ?></p>
+                        <div class="mt-4 text-center text-sm text-gray-700">
+                            <p class="font-medium">📅 Bergabung sejak</p>
+                            <p class="font-bold text-gray-900"><?php echo $stats['member_since']; ?></p>
                         </div>
                     </div>
                 </div>
@@ -175,11 +194,11 @@ include 'includes/header.php';
                     <div class="space-y-2">
                         <a href="favorites.php" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
                             <span class="text-xl mr-2">❤️</span>
-                            <span class="font-semibold">Berita Favorit</span>
+                            <span class="font-semibold text-gray-900">Berita Favorit</span>
                         </a>
                         <a href="index.php" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
                             <span class="text-xl mr-2">📰</span>
-                            <span class="font-semibold">Semua Berita</span>
+                            <span class="font-semibold text-gray-900">Semua Berita</span>
                         </a>
                         <a href="logout.php" class="block px-4 py-3 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg transition">
                             <span class="text-xl mr-2">🚪</span>

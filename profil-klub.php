@@ -86,6 +86,28 @@ function calculateAge($birth_date) {
     $today = new DateTime();
     return $today->diff($birth)->y;
 }
+
+function getRoleAbbreviation($role) {
+    $abbreviations = [
+        // Indonesian roles
+        'Manajer' => 'MNJ',
+        'Asisten Manajer' => 'AST',
+        'Pelatih Kepala' => 'PK',
+        'Asisten Pelatih' => 'AST',
+        'Pelatih Kiper' => 'PKP',
+        'Pelatih Fisik' => 'FIS',
+        'Direktur Teknik' => 'DT',
+        // English roles (for backward compatibility)
+        'Manager' => 'MNJ',
+        'Assistant Manager' => 'AST',
+        'Head Coach' => 'PK',
+        'Assistant Coach' => 'AST',
+        'Goalkeeping Coach' => 'PKP',
+        'Fitness Coach' => 'FIS',
+        'Technical Director' => 'DT'
+    ];
+    return $abbreviations[$role] ?? strtoupper(substr($role, 0, 3));
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -492,23 +514,21 @@ function calculateAge($birth_date) {
                                                 </div>
                                                 
                                                 <!-- Quick Info -->
-                                                <div class="px-6 pb-6 space-y-2">
+                                                <div class="px-6 pb-4 space-y-2">
                                                     <div class="flex items-center justify-center text-gray-600 text-sm">
-                                                        <span class="mr-2">🌍</span>
                                                         <span class="font-semibold"><?php echo $player['nationality']; ?></span>
                                                     </div>
                                                     <?php if ($age): ?>
                                                         <div class="flex items-center justify-center text-gray-600 text-sm">
-                                                            <span class="mr-2">🎂</span>
                                                             <span class="font-semibold"><?php echo $age; ?> tahun</span>
                                                         </div>
                                                     <?php endif; ?>
                                                 </div>
                                                 
                                                 <!-- Flip Hint -->
-                                                <div class="absolute bottom-4 left-0 right-0 text-center">
-                                                    <p class="text-xs text-gray-400 animate-pulse">
-                                                        👆 Klik untuk info lengkap
+                                                <div class="absolute bottom-3 left-0 right-0 text-center px-4">
+                                                    <p class="text-xs text-gray-500 font-medium bg-white/80 py-2 rounded-lg">
+                                                        Klik untuk info lengkap
                                                     </p>
                                                 </div>
                                             </div>
@@ -531,7 +551,7 @@ function calculateAge($birth_date) {
                                                         <span class="font-bold"><?php echo $player['nationality']; ?></span>
                                                     </div>
                                                     
-                                                    <?php if ($player['birth_date']): ?>
+                                                    <?php if (!empty($player['birth_date'])): ?>
                                                         <div class="flex justify-between pb-2 border-b border-white/20">
                                                             <span>Lahir:</span>
                                                             <span class="font-bold"><?php echo date('d M Y', strtotime($player['birth_date'])); ?></span>
@@ -609,7 +629,12 @@ function calculateAge($birth_date) {
                                         
                                         <!-- FRONT SIDE -->
                                         <div class="flip-card-front">
-                                            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-4 <?php echo $border_color; ?> h-full hover:shadow-3xl transition-shadow">
+                                            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-4 <?php echo $border_color; ?> h-full hover:shadow-3xl transition-shadow relative">
+                                                <!-- Role Badge - Top Right -->
+                                                <div class="absolute top-4 right-4 bg-<?php echo $accent_color === 'sky' ? 'sky' : 'red'; ?>-500 text-white px-3 py-1 rounded-full shadow-lg z-10">
+                                                    <span class="text-xs font-black"><?php echo getRoleAbbreviation($staff['role']); ?></span>
+                                                </div>
+                                                
                                                 <!-- Photo - Full Size -->
                                                 <div class="flex justify-center items-center p-6 pt-8">
                                                     <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-<?php echo $team === 'CITY' ? 'sky-400' : 'red-500'; ?> shadow-2xl bg-gray-100">
@@ -633,23 +658,21 @@ function calculateAge($birth_date) {
                                                 </div>
                                                 
                                                 <!-- Quick Info -->
-                                                <div class="px-6 pb-6 space-y-2">
+                                                <div class="px-6 pb-4 space-y-2">
                                                     <div class="flex items-center justify-center text-gray-600 text-sm">
-                                                        <span class="mr-2">🌍</span>
                                                         <span class="font-semibold"><?php echo $staff['nationality']; ?></span>
                                                     </div>
-                                                    <?php if ($staff['join_date']): ?>
+                                                    <?php if (!empty($staff['join_date'])): ?>
                                                         <div class="flex items-center justify-center text-gray-600 text-sm">
-                                                            <span class="mr-2">📅</span>
                                                             <span class="font-semibold">Sejak <?php echo date('Y', strtotime($staff['join_date'])); ?></span>
                                                         </div>
                                                     <?php endif; ?>
                                                 </div>
                                                 
                                                 <!-- Flip Hint -->
-                                                <div class="absolute bottom-4 left-0 right-0 text-center">
-                                                    <p class="text-xs text-gray-400 animate-pulse">
-                                                        👆 Klik untuk info lengkap
+                                                <div class="absolute bottom-3 left-0 right-0 text-center px-4">
+                                                    <p class="text-xs text-gray-500 font-medium bg-white/80 py-2 rounded-lg">
+                                                        Klik untuk info lengkap
                                                     </p>
                                                 </div>
                                             </div>
@@ -671,28 +694,28 @@ function calculateAge($birth_date) {
                                                         <span class="font-bold"><?php echo $staff['nationality']; ?></span>
                                                     </div>
                                                     
-                                                    <?php if ($staff['birth_date']): ?>
+                                                    <?php if (!empty($staff['birth_date'])): ?>
                                                         <div class="flex justify-between pb-2 border-b border-white/20">
                                                             <span>Lahir:</span>
                                                             <span class="font-bold"><?php echo date('d M Y', strtotime($staff['birth_date'])); ?></span>
                                                         </div>
                                                     <?php endif; ?>
                                                     
-                                                    <?php if ($staff['join_date']): ?>
+                                                    <?php if (!empty($staff['join_date'])): ?>
                                                         <div class="flex justify-between pb-2 border-b border-white/20">
                                                             <span>Bergabung:</span>
                                                             <span class="font-bold"><?php echo formatDateIndo($staff['join_date']); ?></span>
                                                         </div>
                                                     <?php endif; ?>
                                                     
-                                                    <?php if ($staff['previous_club']): ?>
+                                                    <?php if (!empty($staff['previous_club'])): ?>
                                                         <div class="flex justify-between pb-2 border-b border-white/20">
                                                             <span>Klub Sebelumnya:</span>
                                                             <span class="font-bold"><?php echo $staff['previous_club']; ?></span>
                                                         </div>
                                                     <?php endif; ?>
                                                     
-                                                    <?php if ($staff['achievements']): ?>
+                                                    <?php if (!empty($staff['achievements'])): ?>
                                                         <div class="pt-2">
                                                             <p class="font-bold mb-2">🏆 Prestasi:</p>
                                                             <p class="text-xs opacity-90 leading-relaxed">
